@@ -10,7 +10,8 @@
     "iron-collapse": "^2.1.0",
     "paper-header-panel": "^2.0.0",
     "app-layout": "^2.0.5",
-    "app-route": "*"
+    "app-route": "*",
+    "polymer-siren-mixins": "git@github.com:Brightspace/polymer-siren-mixins.git"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",

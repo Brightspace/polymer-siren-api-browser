@@ -2,7 +2,7 @@
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../utility/siren-action-mixin.html">
+<link rel="import" href="../../../bower_components/polymer-siren-mixins/siren-action-mixin.html">
 <link rel="import" href="../../styles/shared-styles.html">
 
 <dom-module id="siren-action">
@@ -35,16 +35,16 @@
 		</style>
 		<paper-card>
 			<form class="form">
-	  			<template is="dom-repeat" items="{{fields}}">
-	  				<paper-input class="input" value="{{item.value}}" type="[[item.type]]" label="[[item.name]]" ></paper-input>
-	  			</template>
+				<template is="dom-repeat" items="{{fields}}">
+					<paper-input class="input" value="{{item.value}}" type="[[item.type]]" label="[[item.name]]" ></paper-input>
+				</template>
 				<paper-button raised class="indigo" on-click="_go" class="right">Execute</paper-button>
 			</form>
 		</paper-card>
 	</template>
 	<script>
-		/* @mixes window.SirenActionMixin */
-		class SirenAction extends window.SirenActionMixin(Polymer.Element) {
+		/* @mixes window.D2L.Polymer.Mixins.SirenActionMixin */
+		class SirenAction extends window.D2L.Polymer.Mixins.SirenActionMixin(Polymer.Element) {
 			static get is() {
 				return 'siren-action';
 			}
@@ -64,6 +64,7 @@
 					},
 				};
 			}
+
 			static get observers() {
 				return [
 					'_changed(action)',
