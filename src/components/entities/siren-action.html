@@ -1,6 +1,7 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../../bower_components/polymer-siren-mixins/siren-action-mixin.html">
 <link rel="import" href="../../styles/shared-styles.html">
@@ -32,6 +33,13 @@
 			.right {
 				float: right;
 			}
+			.toast {
+				max-width: 500px;
+				border: 1px solid #ccc;
+				background-color: #fefefe;
+				border-radius: 5px;
+			}
+
 		</style>
 		<paper-card>
 			<form class="form">
@@ -41,6 +49,16 @@
 				<paper-button raised class="indigo" on-click="_go" class="right">Execute</paper-button>
 			</form>
 		</paper-card>
+		<paper-toast duration=0 text="[[text]]" opened=[[opened]]>
+			<div>
+				<div>
+					[[errorText]]
+				</div>
+				<div>
+					<paper-button raised on-click="_closeToast">Close</paper-button>
+				</div>
+			</div>
+		</paper-toast>
 	</template>
 	<script>
 		/* @mixes window.D2L.Polymer.Mixins.SirenActionMixin */
@@ -62,6 +80,18 @@
 						type: Array,
 						value: [],
 					},
+					opened: {
+						type: Boolean,
+						value: false
+					},
+					text: {
+						type: String,
+						value: ''
+					},
+					errorText: {
+						type: String,
+						value: ''
+					}
 				};
 			}
 
@@ -72,15 +102,26 @@
 			}
 
 			_go() {
-				const fieldObjects = this.getSirenFields(this.action);
-				for (const field of this.fields) {
+				const self = this;
+				const fieldObjects = this.getSirenFields(self.action);
+				for (const field of self.fields) {
 					if (field.value === undefined) {
 						continue;
 					}
 					fieldObjects.set(field.name, field.value);
 				}
-				this.performSirenAction(this.action, fieldObjects);
-				this.href = this.getEntityUrl(this.action, fieldObjects).href;
+				this.performSirenAction(self.action, fieldObjects)
+						.then(function(){
+							self.href = self.getEntityUrl(self.action, fieldObjects).href;
+						})
+						.catch(function(err){
+							self.text = `Error executing action ${ self.action.name }`;
+							self.errorText = err && err.message || '';
+							self.opened = true;
+						});
+			}
+			_closeToast(){
+				this.opened = false;
 			}
 			_changed(action) {
 				this.fields = action.fields || [];
