@@ -71,6 +71,10 @@ class SirenSubEntity extends PolymerElement {
 				reflectToAttribute: true,
 				notify: true
 			},
+			token: {
+				reflectToAttribute: true,
+				notify: true
+			},
 			entity: {
 				type: Object,
 				value: {}
