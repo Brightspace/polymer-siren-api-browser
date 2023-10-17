@@ -10,7 +10,7 @@ $_documentContainer.innerHTML = /*html*/`<dom-module id="siren-object-subentitie
 		<ul>
 			<template is="dom-repeat" items="{{entities}}">
 				<li>
-					<siren-subentity href="{{href}}" entity="{{item}}"></siren-subentity>
+					<siren-subentity href="{{href}}" entity="{{item}}" token="{{token}}"></siren-subentity>
 				</li>
 			</template>
 		</ul>
